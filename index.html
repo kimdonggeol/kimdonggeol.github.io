@@ -174,12 +174,30 @@
   .shot .dark { display: none; }
   /* 웹: 설명(좌) · 스크린샷(우) */
   .showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
-  .showcase .shot { margin-top: 0.875rem; max-width: none; }
+  .showcase .shot-carousel { margin-top: 0.875rem; }
+
+  /* 스크린샷 슬라이드: 마우스를 올리면 좌우 버튼, 터치는 스와이프 */
+  .shot-carousel { position: relative; }
+  .shot-carousel .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); }
+  .shot-carousel .track::-webkit-scrollbar { display: none; }
+  .shot-carousel .shot { flex: 0 0 100%; scroll-snap-align: start; max-width: none; margin: 0; border: 0; border-radius: 0; }
+  .shot-carousel .shot:hover img { transform: none; }
+  .shot-carousel .nav { position: absolute; top: calc(50% - 1.1rem); transform: translateY(-50%); display: grid; place-items: center; width: 2.25rem; height: 2.25rem; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: color-mix(in srgb, var(--bg) 86%, transparent); color: var(--ink); font: inherit; font-size: 1.125rem; line-height: 1; cursor: pointer; opacity: 0; transition: opacity .2s ease, background .2s ease; backdrop-filter: blur(6px); }
+  .shot-carousel .nav:hover { background: var(--bg); }
+  .shot-carousel .prev { left: 0.625rem; }
+  .shot-carousel .next { right: 0.625rem; }
+  .shot-carousel:hover .nav, .shot-carousel .nav:focus-visible { opacity: 1; }
+  .shot-carousel .nav[disabled] { opacity: 0 !important; pointer-events: none; }
+  @media (hover: none) { .shot-carousel .nav { opacity: 1; } }
+  .shot-carousel .bar { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.625rem; font-size: 0.8125rem; color: var(--muted); }
+  .shot-carousel .dots { display: flex; gap: 0.375rem; }
+  .shot-carousel .dots button { width: 0.5rem; height: 0.5rem; padding: 0; border: 0; border-radius: 999px; background: var(--line); cursor: pointer; transition: width .25s ease, background .25s ease; }
+  .shot-carousel .dots button[aria-current="true"] { width: 1.25rem; background: var(--accent); }
   .showcase-text > .stats, .showcase-text > .tags { margin-top: 1rem; }
   .showcase-text > .links { margin-top: 0.75rem; }
   @media (max-width: 760px) {
     .showcase { display: block; }
-    .showcase .shot { margin-top: 1.25rem; }
+    .showcase .shot-carousel { margin-top: 1.25rem; }
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .shot .light { display: none; }
@@ -284,7 +302,9 @@
     ul.detail { padding-top: 0.5rem; }
     .lnk .arr { display: none; }
     .showcase { display: block; }
-    .shot { break-inside: avoid; max-width: 75%; margin-top: 1.25rem !important; }
+    .shot-carousel { break-inside: avoid; max-width: 75%; margin-top: 1.25rem !important; }
+    .shot-carousel .track { overflow: visible; }
+    .shot-carousel .shot:not(:first-child), .shot-carousel .nav, .shot-carousel .bar { display: none !important; }
     .shot .light { display: block !important; }
     .shot .dark { display: none !important; }
     .lnk::after { content: " — " attr(data-print); font-weight: 400; color: var(--muted); }
@@ -744,10 +764,23 @@
             <div class="tags"><b>JavaScript</b><b>Chrome Extension MV3</b><b>Nexon Open API</b><b>chrome.storage</b><b>stale-while-revalidate</b></div>
             <div class="links"><a class="lnk" href="https://chromewebstore.google.com/detail/honnoaiankoocpppcgogpcmbebcbjbkg" target="_blank" rel="noopener" data-print="chromewebstore.google.com/detail/honnoaiankoocpppcgogpcmbebcbjbkg">Chrome 웹스토어<span class="arr" aria-hidden="true">↗</span></a></div>
           </div>
-          <a class="shot" href="assets/maple-dashboard-light.webp" target="_blank" rel="noopener" aria-label="메이플 대시보드 화면 크게 보기">
-            <img class="light" src="assets/maple-dashboard-light.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (라이트 모드): 캐릭터 카드, 시계, 검색, 달력, 날씨, 공지 목록">
-            <img class="dark" src="assets/maple-dashboard-dark.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (다크 모드)">
-          </a>
+          <div class="shot-carousel" role="region" aria-roledescription="carousel" aria-label="메이플 대시보드 화면">
+            <div class="track" tabindex="0">
+              <a class="shot" href="assets/maple-dashboard-light.webp" target="_blank" rel="noopener" aria-label="메인 화면 크게 보기" data-label="메인 화면">
+                <img class="light" src="assets/maple-dashboard-light.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (라이트 모드): 캐릭터 카드, 시계, 검색, 달력, 날씨, 공지 목록">
+                <img class="dark" src="assets/maple-dashboard-dark.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (다크 모드)">
+              </a>
+              <a class="shot" href="assets/maple-dashboard-settings.webp" target="_blank" rel="noopener" aria-label="설정 화면 크게 보기" data-label="설정 화면">
+                <img src="assets/maple-dashboard-settings.webp" width="1280" height="800" loading="lazy" alt="메이플 대시보드 설정 창: 표시 항목, 정렬, 시간 형식, 테마 색상, 위젯, 배경 설정">
+              </a>
+              <a class="shot" href="assets/maple-dashboard-start.webp" target="_blank" rel="noopener" aria-label="시작 화면 크게 보기" data-label="시작 화면">
+                <img src="assets/maple-dashboard-start.webp" width="1280" height="800" loading="lazy" alt="메이플 대시보드 시작 화면: 넥슨 API 키 입력 또는 키 없이 시작">
+              </a>
+            </div>
+            <button class="nav prev" type="button" aria-label="이전 화면" disabled>‹</button>
+            <button class="nav next" type="button" aria-label="다음 화면">›</button>
+            <div class="bar"><div class="dots"></div><span class="label">메인 화면</span></div>
+          </div>
         </div>
       </article>
 
@@ -779,4 +812,35 @@
     addEventListener("beforeprint", () => all().forEach(d => { d.dataset.was = d.open ? "1" : ""; d.open = true; }));
     addEventListener("afterprint", () => all().forEach(d => { d.open = d.dataset.was === "1"; }));
   })();
+</script>
+<script>
+  // 스크린샷 슬라이드: 버튼·점·키보드·스와이프
+  document.querySelectorAll(".shot-carousel").forEach(c => {
+    const track = c.querySelector(".track"), slides = [...track.children];
+    const prev = c.querySelector(".prev"), next = c.querySelector(".next");
+    const dots = c.querySelector(".dots"), label = c.querySelector(".label");
+    const go = i => track.scrollTo({ left: track.clientWidth * Math.max(0, Math.min(slides.length - 1, i)) });
+    const cur = () => Math.round(track.scrollLeft / track.clientWidth);
+    slides.forEach((s, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-label", `${i + 1}번째 화면: ${s.dataset.label}`);
+      b.addEventListener("click", () => go(i));
+      dots.append(b);
+    });
+    const sync = () => {
+      const i = cur();
+      prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+      [...dots.children].forEach((d, k) => d.setAttribute("aria-current", k === i));
+      label.textContent = `${slides[i].dataset.label} · ${i + 1} / ${slides.length}`;
+    };
+    prev.addEventListener("click", () => go(cur() - 1));
+    next.addEventListener("click", () => go(cur() + 1));
+    track.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(cur() - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); go(cur() + 1); }
+    });
+    let t; track.addEventListener("scroll", () => { clearTimeout(t); t = setTimeout(sync, 60); }, { passive: true });
+    addEventListener("beforeprint", () => { track.style.scrollBehavior = "auto"; track.scrollLeft = 0; });
+    sync();
+  });
 </script>
