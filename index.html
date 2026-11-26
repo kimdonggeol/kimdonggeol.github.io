@@ -172,6 +172,15 @@
   .shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; transition: transform .3s ease; }
   .shot:hover img { transform: scale(1.015); }
   .shot .dark { display: none; }
+  /* 웹: 설명(좌) · 스크린샷(우) */
+  .showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
+  .showcase .shot { margin-top: 0.875rem; max-width: none; }
+  .showcase-text > .stats, .showcase-text > .tags { margin-top: 1rem; }
+  .showcase-text > .links { margin-top: 0.75rem; }
+  @media (max-width: 760px) {
+    .showcase { display: block; }
+    .showcase .shot { margin-top: 1.25rem; }
+  }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .shot .light { display: none; }
     :root:not([data-theme="light"]) .shot .dark { display: block; }
@@ -214,6 +223,7 @@
   /* ── 사이드 프로젝트 ─────────────────────────────────── */
   .sides { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3.5rem; }
   .sides .card + .card { padding-top: 0; border-top: 0; }
+  .sides > .card:only-child { grid-column: 1 / -1; }
   .links { margin-top: 1rem; }
   .lnk { font-size: 0.875rem; font-weight: 600; }
   .lnk .arr { margin-left: 0.25rem; }
@@ -273,7 +283,8 @@
     .more::details-content { block-size: auto; content-visibility: visible; }
     ul.detail { padding-top: 0.5rem; }
     .lnk .arr { display: none; }
-    .shot { break-inside: avoid; max-width: 75%; }
+    .showcase { display: block; }
+    .shot { break-inside: avoid; max-width: 75%; margin-top: 1.25rem !important; }
     .shot .light { display: block !important; }
     .shot .dark { display: none !important; }
     .lnk::after { content: " — " attr(data-print); font-weight: 400; color: var(--muted); }
@@ -721,19 +732,23 @@
 
       <article class="card">
         <div class="card-head"><h4>메이플 대시보드</h4><span class="sub">크롬 확장 프로그램</span><span class="when">2026. 06 ~ 운영 중</span></div>
-        <div class="key">
-          <p>실무가 백엔드 중심으로 옮겨 간 뒤에도 화면을 설계하는 감각을 계속 쓰고 싶어, 기획부터 UI까지 직접 만든 프로젝트입니다. 넥슨 Open API로 캐릭터·주간 보스·공지를 모아 보여 주는 새 탭 대시보드입니다. 크롬 웹스토어에 배포해 <strong>설치 243건, 주간 사용자 75명 이상을 유지</strong>하고 있습니다. 서버 없이 모든 데이터를 브라우저에만 저장하도록 설계했습니다. <strong>API 호출 제한과 화면 깜빡임을 줄이기 위해 stale-while-revalidate, 날짜 기준 캐시 초기화, 실패 시 이전 캐시 유지 등 캐싱 전략을 직접 설계</strong>했습니다.</p>
+        <div class="showcase">
+          <div class="showcase-text">
+            <div class="key">
+              <p>실무가 백엔드 중심으로 옮겨 간 뒤에도 화면을 설계하는 감각을 계속 쓰고 싶어, 기획부터 UI까지 직접 만든 프로젝트입니다. 넥슨 Open API로 캐릭터·주간 보스·공지를 모아 보여 주는 새 탭 대시보드입니다. 크롬 웹스토어에 배포해 <strong>설치 243건, 주간 사용자 75명 이상을 유지</strong>하고 있습니다. 서버 없이 모든 데이터를 브라우저에만 저장하도록 설계했습니다. <strong>API 호출 제한과 화면 깜빡임을 줄이기 위해 stale-while-revalidate, 날짜 기준 캐시 초기화, 실패 시 이전 캐시 유지 등 캐싱 전략을 직접 설계</strong>했습니다.</p>
+            </div>
+            <div class="stats">
+              <div><span class="n">243</span><span class="t">설치</span></div>
+              <div><span class="n">75+</span><span class="t">주간 사용자</span></div>
+            </div>
+            <div class="tags"><b>JavaScript</b><b>Chrome Extension MV3</b><b>Nexon Open API</b><b>chrome.storage</b><b>stale-while-revalidate</b></div>
+            <div class="links"><a class="lnk" href="https://chromewebstore.google.com/detail/honnoaiankoocpppcgogpcmbebcbjbkg" target="_blank" rel="noopener" data-print="chromewebstore.google.com/detail/honnoaiankoocpppcgogpcmbebcbjbkg">Chrome 웹스토어<span class="arr" aria-hidden="true">↗</span></a></div>
+          </div>
+          <a class="shot" href="assets/maple-dashboard-light.webp" target="_blank" rel="noopener" aria-label="메이플 대시보드 화면 크게 보기">
+            <img class="light" src="assets/maple-dashboard-light.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (라이트 모드): 캐릭터 카드, 시계, 검색, 달력, 날씨, 공지 목록">
+            <img class="dark" src="assets/maple-dashboard-dark.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (다크 모드)">
+          </a>
         </div>
-        <a class="shot" href="assets/maple-dashboard-light.webp" target="_blank" rel="noopener" aria-label="메이플 대시보드 화면 크게 보기">
-          <img class="light" src="assets/maple-dashboard-light.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (라이트 모드): 캐릭터 카드, 시계, 검색, 달력, 날씨, 공지 목록">
-          <img class="dark" src="assets/maple-dashboard-dark.webp" width="1280" height="800" alt="메이플 대시보드 새 탭 화면 (다크 모드)">
-        </a>
-        <div class="stats">
-          <div><span class="n">243</span><span class="t">설치</span></div>
-          <div><span class="n">75+</span><span class="t">주간 사용자</span></div>
-        </div>
-        <div class="tags"><b>JavaScript</b><b>Chrome Extension MV3</b><b>Nexon Open API</b><b>chrome.storage</b><b>stale-while-revalidate</b></div>
-        <div class="links"><a class="lnk" href="https://chromewebstore.google.com/detail/honnoaiankoocpppcgogpcmbebcbjbkg" target="_blank" rel="noopener" data-print="chromewebstore.google.com/detail/honnoaiankoocpppcgogpcmbebcbjbkg">Chrome 웹스토어<span class="arr" aria-hidden="true">↗</span></a></div>
       </article>
 
     </div>
