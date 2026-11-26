@@ -247,7 +247,8 @@
   .lnk .arr { margin-left: 0.25rem; }
 
   /* ── 학력 ─────────────────────────────────────────────── */
-  .edus { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 3.5rem; }
+  .edus { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem 2.5rem; }
+  @media (max-width: 960px) { .edus { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .edu { display: flex; flex-direction: column; }
   .edu h3 { font-size: 1.0625rem; font-weight: 700; }
   .edu .desc { margin-top: 0.125rem; font-size: 0.9375rem; }
@@ -789,7 +790,7 @@
 
   <!-- ══ 학력 ══ -->
   <section>
-    <div class="sec-title"><h2>학력</h2><span class="rule"></span></div>
+    <div class="sec-title"><h2>학력 · 자격</h2><span class="rule"></span></div>
     <div class="edus">
       <div class="edu">
         <h3>한국소프트웨어인재개발원</h3>
@@ -800,6 +801,11 @@
         <h3>안산대학교</h3>
         <span class="desc">인터넷정보과 · 학점 4.29 / 4.5</span>
         <span class="when">2013. 03 ~ 2017. 02</span>
+      </div>
+      <div class="edu">
+        <h3>정보처리산업기사</h3>
+        <span class="desc">한국산업인력공단</span>
+        <span class="when">2017. 11</span>
       </div>
     </div>
   </section>
